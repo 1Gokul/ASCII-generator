@@ -1,0 +1,79 @@
+html * {
+    font-family: Product Sans, sans-serif;
+    text-align: center;
+    background-repeat: no-repeat;
+   background-attachment: fixed;
+ }
+
+ body {
+    background-image: url("../img/bg.jpg");
+    background-size: cover;
+    
+ }
+
+ input {
+    border: 0;
+    background: none;
+    -webkit-appearance: none;
+ }
+
+ input[type="submit"] {
+    background:#406E8E;
+    color: white;
+    font-size: xx-large;
+    box-shadow: none;
+    border-radius: 10px;
+    position: relative;
+    padding: 10px;
+    top: 5px;
+ }
+ input[type="submit"]:hover{
+    background: #8EA8C3;
+ }
+
+ a{
+     color: white;
+     text-decoration: none;
+ }
+
+ .option_wrapper_box{
+    border-radius: 20px;
+    background-color: #161925; 
+    margin-top: 20px;
+    margin-left: 35%; 
+    margin-right: 35%; 
+    padding: 15px 0px;
+ }
+
+ .error{
+    border-radius: 5px;
+    margin-left: 40%;
+    margin-right: 40%;
+    padding: 5px;
+    font-size: larger;
+    background-color: #161925;
+    color: rgb(250, 99, 99);
+
+ }
+ iframe{ 
+    background-color: white;
+    text-align: center;
+    width: 90%;
+    height: 80%
+ }
+
+.fileuploadbox{
+   
+   font-size: larger;    
+   margin: 30px;
+   margin-left: 80px;
+}
+
+.downloadlink{
+   padding: 5px;
+   position: absolute;
+   display: block;
+   right: 85px;
+   background-color: #23395B; 
+   border-radius: 5px;
+}

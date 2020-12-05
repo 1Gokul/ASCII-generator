@@ -1,0 +1,37 @@
+<html>
+
+<head>
+    <title>Pic2ASCII</title>
+    <link rel="Stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div style="text-align: center; color: white;">
+        <a style="font-weight: 700; font-size: 85;" href="{{ url_for('index') }}">PIC2ASCII</a>
+    </div>
+    {% if type == 'img' %}
+    <span class="downloadlink">
+        <a href="https://i.imgur.com/{{ output_file }}.jpg" style="color:#CBF7ED">Download image</a>
+    </span>
+    <div style="text-align: center; color: white; font-size:x-large; font-weight: 100;">The resultant ASCII image is:
+    </div>
+
+
+    <blockquote class="imgur-embed-pub" lang="en" data-id="{{ output_file }}" data-context="false" ><a href="//imgur.com/{{ output_file }}"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+    {% else %}
+    <span class="downloadlink">
+        <a href={{ output_file }} download style="color: #CBF7ED">Download text file</a>
+    </span>
+    <div style="text-align: center; color: white; font-size:x-large; font-weight: 100;">
+        The resultant ASCII text is:
+    </div>
+
+    <div>
+        <iframe src={{ output_file }}></iframe>
+    </div>
+    {% endif %}
+
+    </div>
+</body>
+
+</html>

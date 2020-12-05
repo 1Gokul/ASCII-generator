@@ -1,0 +1,77 @@
+<html>
+
+<head>
+   <title>Pic2ASCII</title>
+   <link rel="Stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+   <div style="text-align: center; color: white;">
+      <a style="font-weight: 700; font-size: 85;" href="{{ url_for('index') }}">PIC2ASCII</a>
+      <form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data" name="imageform">
+         <p style="font-size: larger;">Select and upload the image you want to convert.</p>
+         <input type="file" name="file" class="fileuploadbox">
+         {% if error %}
+         <p class="error">{{ error }}</p>
+         {% endif %}
+         
+         <div class="option_wrapper_box">
+         <p>
+            <label for="type">Convert to an Image or plain text?</label>
+            <select name="type" name="typelist">
+               <option value="img">Image</option>
+               <option value="txt">Text</option>
+            </select>
+         </p>
+
+         <p>
+            <label for="mode">Use simple or complex characters?</label>
+            <select name="mode" name="typelist">
+               <option value="simple">Simple</option>
+               <option value="complex">Complex</option>
+            </select>
+         </p>
+
+         <p>
+            <label for="num_cols">Number of columns?<br> (More columns = more detail)</label>
+            <select name="num_cols" name="typelist">
+               <option value="125">125</option>
+               <option value="250">250</option>
+               <option value="375">375</option>
+               <option value="500">500</option>
+               <option value="625">625</option>
+               <option value="750">750</option>
+               <option value="875">875</option>
+               <option value="1000">1000</option>
+            </select>
+         </p>
+
+         <p>
+            <label for="scale">Scale?</label>
+            <select name="scale" name="typelist">
+               <option value="1">1</option>
+               <option value="2">2</option>
+               <option value="3">3</option>
+               <option value="4">4</option>
+               <option value="5">5</option>
+            </select>
+         </p>
+
+         <p>
+            <span style="color: rgb(250, 99, 99);">ONLY IF CONVERTING TO IMAGE</span>
+            <label for="mode"> <br> White or Black background?</label>
+            <select name="background" name="typelist">
+               <option value="white">White</option>
+               <option value="black">Black</option>
+            </select>
+         </p>
+         
+         <p>
+            <input type="submit" value="Submit Image" />
+         </p>
+      </form>
+   </div>
+   </div>
+</body>
+
+</html>

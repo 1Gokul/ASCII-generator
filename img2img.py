@@ -1,11 +1,9 @@
-"""
-@author: Viet Nguyen <nhviet1009@gmail.com>
-"""
 import argparse
-
 import cv2
 import numpy as np
+from skimage import io
 from PIL import Image, ImageFont, ImageDraw, ImageOps
+from io import BytesIO
 
 
 def get_args():
@@ -16,28 +14,28 @@ def get_args():
                         help="10 or 70 different characters")
     parser.add_argument("--background", type=str, default="white", choices=["black", "white"],
                         help="background's color")
-    parser.add_argument("--num_cols", type=int, default=200, help="number of character for output's width")
+    parser.add_argument("--num_cols", type=int, default=500, help="number of character for output's width")
     parser.add_argument("--scale", type=int, default=2, help="upsize output")
     args = parser.parse_args()
     return args
 
 
-def main(opt):
-    if opt.mode == "simple":
+def main(input, mode, background, num_cols, scale):
+    if mode == "simple":
         CHAR_LIST = '@%#*+=-:. '
     else:
         CHAR_LIST = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. "
-    if opt.background == "white":
+    if background == "white":
         bg_code = 255
     else:
         bg_code = 0
-    font = ImageFont.truetype("fonts/DejaVuSansMono-Bold.ttf", size=10 * opt.scale)
+    font = ImageFont.truetype("fonts/DejaVuSansMono-Bold.ttf", size=10 * scale)
     num_chars = len(CHAR_LIST)
-    num_cols = opt.num_cols
-    image = cv2.imread(opt.input)
+    num_cols = num_cols
+    image = io.imread(input)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     height, width = image.shape
-    cell_width = width / opt.num_cols
+    cell_width = width / num_cols
     cell_height = 2 * cell_width
     num_rows = int(height / cell_height)
     if num_cols > width or num_rows > height:
@@ -59,14 +57,13 @@ def main(opt):
                         range(num_cols)]) + "\n"
         draw.text((0, i * char_height), line, fill=255 - bg_code, font=font)
 
-    if opt.background == "white":
+    if background == "white":
         cropped_image = ImageOps.invert(out_image).getbbox()
     else:
         cropped_image = out_image.getbbox()
     out_image = out_image.crop(cropped_image)
-    out_image.save(opt.output)
+    output = BytesIO()
+    out_image.save(output, format('JPEG'))
+    outimg_data = output.getvalue()
 
-
-if __name__ == '__main__':
-    opt = get_args()
-    main(opt)
+    return outimg_data
