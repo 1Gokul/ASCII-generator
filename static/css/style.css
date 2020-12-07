@@ -1,14 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap');
+
+
+
 html * {
-    font-family: Product Sans, sans-serif;
-    text-align: center;
-    background-repeat: no-repeat;
+   font-family: Poppins, sans-serif;
+   text-align: center;  
+   background-repeat: no-repeat;
    background-attachment: fixed;
+   color:white;
  }
 
  body {
     background-image: url("../img/bg.jpg");
-    background-size: cover;
-    
+    background-size: cover;    
+   
  }
 
  input {
@@ -18,7 +24,7 @@ html * {
  }
 
  input[type="submit"] {
-    background:#406E8E;
+    background:#314f7e;
     color: white;
     font-size: xx-large;
     box-shadow: none;
@@ -28,7 +34,7 @@ html * {
     top: 5px;
  }
  input[type="submit"]:hover{
-    background: #8EA8C3;
+    background: #406E8E;
  }
 
  a{
@@ -47,13 +53,11 @@ html * {
 
  .error{
     border-radius: 5px;
-    margin-left: 40%;
-    margin-right: 40%;
+    max-width: 200px;
     padding: 5px;
     font-size: larger;
     background-color: #161925;
     color: rgb(250, 99, 99);
-
  }
  iframe{ 
     background-color: white;
@@ -65,15 +69,41 @@ html * {
 .fileuploadbox{
    
    font-size: larger;    
-   margin: 30px;
+   margin: 20px;
    margin-left: 80px;
 }
 
 .downloadlink{
-   padding: 5px;
+   font-size: xx-large;
+   padding: 10px;
    position: absolute;
    display: block;
-   right: 85px;
-   background-color: #23395B; 
+   background-color: #314f7e; 
    border-radius: 5px;
+}
+
+.downloadlink:hover{
+   background: #406E8E;
+}
+
+.data { 
+   display: flexbox;
+   overflow: hidden;
+   border: 2px solid rgb(199, 199, 199);
+   padding: 10px 0px;
+   margin-left: 32.5%;
+   margin-right: 32.5%;
+   max-width: 500px;
+   max-height: 500px;
+   background-color: #333;
+   color:white;
+   font-family: Source Code Pro, monospace;
+}
+
+.titleimg:hover{
+   border-bottom: 5px solid white;
+}
+
+select{
+   color:black;
 }

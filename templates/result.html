@@ -1,39 +1,43 @@
-<html>
+{% extends "layout.html" %}
 
-<head>
-    <title>Pic2ASCII</title>
-    <link rel="Stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
+{% block body %}
 
-<body>
-    <div style="text-align: center; color: white;">
-        <a style="font-weight: 700; font-size: 85;" href="{{ url_for('index') }}">PIC2ASCII</a>
-    </div>
-    {% if type == 'img' %}
-    <span class="downloadlink">
-        <a href="https://i.imgur.com/{{ output_file }}.jpg" style="color:#CBF7ED">Download image</a>
-    </span>
-    <div style="text-align: center; color: white; font-size:x-large; font-weight: 100;">The resultant ASCII image is:
-    </div>
+{% if errors != " " %}
+<span class="error" style="position: absolute; left:100px; top:300px;">
+    <p style="color: white; font-size: large;">Errors faced while processing:</p>
+    <p>{{ errors }}</p>
+</span>
+{% endif %}
 
-
+{% if type == 'img' %}
+<p style="font-size: larger; margin-top: 40px;">The converted image is:</p>
+<!-- <img src=https://i.imgur.com/{{ output_file }}.jpg > -->
+<span style="position: absolute; left: 520px; top:175px; max-width: 500px; max-height: 500px;">
     <blockquote class="imgur-embed-pub" lang="en" data-id="{{ output_file }}" data-context="false"><a
             href="//imgur.com/{{ output_file }}"></a></blockquote>
     <script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-    {% else %}
-    <span class="downloadlink">
-        <a href={{ output_file }} download style="color: #CBF7ED">Download text file</a>
-    </span>
-    <div style="text-align: center; color: white; font-size:x-large; font-weight: 100;">
-        The resultant ASCII text is:
-    </div>
+</span>
 
-    <div>
-        <iframe src={{ output_file }}></iframe>
-    </div>
-    {% endif %}
+<span style="top: 300px;right: 100px;">
+    <a class="downloadlink" href="//imgur.com/download/{{ output_file }}/">Download image</a>
+</span>
 
-    </div>
-</body>
+{% else %}
+<span class="downloadlink" style="top: 300px;right: 100px;">
+    <a href="{{ dl_link }}">Download .txt file</a>
+</span>
+<span class="downloadlink" style="top: 375px;right: 100px;">
+    <a href="{{ raw_link }}">View raw text</a>
+</span>
+<p style="font-size: larger; margin-top: 40px;">The converted text is:</p>
 
-</html>
+<pre>
+    <div class="data" style="font-size: {{ size }};">
+{{ output_file }}
+    </div>
+    </pre>
+{% endif %}
+
+</div>
+
+{% endblock %}
