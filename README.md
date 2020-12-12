@@ -14,3 +14,7 @@ You can check out the website here: [pic-2ascii.herokuapp.com](https://pic-2asci
     - pyimgur(to upload the images to Imgur) **NOTE** You will also need an Imgur Client ID to upload.
 
 Just run main.py to begin.
+
+By:
+- [Gokul Viswanath](https://1gokul.github.io/)
+- [Shubham Bhagwat](https://shubhamxb.github.io/)

@@ -8,6 +8,7 @@ from pasteee import Paste
 import os
 
 app = Flask(__name__)
+
 im = pyimgur.Imgur(os.environ.get("IMGUR_KEY"))
 
 app.config['UPLOAD_FOLDER'] = '/tmp/'
