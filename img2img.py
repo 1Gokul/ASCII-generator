@@ -63,6 +63,8 @@ def main(input, mode, background, num_cols, scale):
     char_width, char_height = font.getsize("A")
     out_width = char_width * num_cols
     out_height = 2 * char_height * num_rows
+
+    # Create the image and write to it
     out_image = Image.new("L", (out_width, out_height), bg_code)
     draw = ImageDraw.Draw(out_image)
     for i in range(num_rows):
@@ -84,8 +86,11 @@ def main(input, mode, background, num_cols, scale):
         cropped_image = out_image.getbbox()
 
     out_image = out_image.crop(cropped_image)
+
+    # Save the image to the BytesIO buffer
     output = BytesIO()
     out_image.save(output, format('JPEG'))
-    outimg_data = output.getvalue()
 
+    # return the contents of the buffer
+    outimg_data = output.getvalue()
     return outimg_data, errors

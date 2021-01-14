@@ -9,6 +9,7 @@ import os
 
 app = Flask(__name__)
 
+
 im = pyimgur.Imgur(os.environ.get("IMGUR_KEY"))
 
 app.config['UPLOAD_FOLDER'] = '/tmp/'
@@ -56,20 +57,20 @@ def upload_file():
                                        outimg=outimg,
                                        errors=errors)
             else:
-                # fname = os.path.splitext(filename)[0] + '.txt'
                 outputtxt, errors = img2txt.main(
                     str(inp['link']), str(request.form.get('mode')),
                     int(request.form.get('num_cols')),
                     int(request.form.get('scale')))
 
-                inlink = inp['link'].replace('https://i.imgur.com/', '')
+                                # upload the converted text to paste.ee
+                paste = Paste(outputtxt, private=False, desc=inp['link'], views=10)
 
-                paste = Paste(outputtxt, private=False, desc=inlink, views=10)
-                print(paste['link'])
+                # raw and download links
                 raw_link = paste['raw']
                 dl_link = paste['download']
 
-                font_size = 0.4 * (int(request.form.get('num_cols')) / 125)
+                # Reduce the size of the preview text so that it doesn't overflow
+                font_size = int(request.form.get('num_cols')) / (100 * int(request.form.get('scale')))
 
                 return render_template('result.html',
                                        type='txt',

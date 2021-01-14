@@ -3,10 +3,11 @@
 {% block body %}
 
 <form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data" name="imageform">
-   <p style="font-size: larger; margin-top: 40px;">Select and upload the image you want to convert.</p>
-   <input type="file" name="file" class="fileuploadbox">
+   <p class="subtitle">Select and upload the image you want to convert.<br>
+      <input type="file" name="file" class="fileuploadbox">
+   </p>
    {% if error %}
-   <p class="error" style="margin-left: 40%;margin-right: 40%;">{{ error }}</p>
+   <p class="error" style="position: relative;">{{ error }}</p>
    {% endif %}
 
    <div class="option_wrapper_box">
@@ -63,8 +64,7 @@
       <p>
          <input type="submit" value="Submit Image" />
       </p>
+   </div>
 </form>
-</div>
-</div>
 
 {% endblock %}

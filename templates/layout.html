@@ -1,35 +1,41 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+    
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Pic2ASCII</title>
-    <link rel="Stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="Stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
 
 <body>
-
     <a href="{{ url_for('index') }} " class="titleimg">
-        <img src="{{ url_for('static', filename='img/title.png') }}" height="100" width="550">
+        <img src="{{ url_for('static', filename='img/title.png') }}" />
     </a>
 
-    {% block body %}
-    {% endblock %}
+    {% block body %} {% endblock %}
 
     <footer>
-        <span style="position: absolute; left: 375px;">
-            <span style="padding-right: 50px;"><a href="https://github.com/1Gokul/ASCII-generator">This website's github
-                    repo</a></span>
-            <span style="padding-left: 200px; padding-right: 200px;">
-                <img src="{{ url_for('static', filename='img/separator.png') }}" alt="" height="30" width="20"
-                    style="padding-top: 10px;">
-                <a style="padding-left:50px;" href="https://1gokul.github.io/">Gokul Viswanath</a></span>
-            <span style="padding-left: 50px;">
-                <img src="{{ url_for('static', filename='img/separator.png') }}" alt="" height="30" width="20"
-                    style="padding-top: 10px;">
-                <a style="padding-left:50px;" href="https://shubhamxb.github.io/">Shubham Bhagwat</a></span>
-
-        </span>
+            <ul>
+                <li>
+                    <a href="{{ url_for('index') }} ">
+                        <img src="{{ url_for('static', filename='img/title.png') }}" />
+                    </a>
+                </li>
+            <li>
+                <a href="https://github.com/1Gokul/ASCII-generator">This website's github repo</a>
+            </li>
+            <li>
+                <a href="https://1gokul.github.io/">Gokul Viswanath</a>
+            </li>
+            <li>
+                <a href="https://shubhamxb.github.io/">Shubham Bhagwat</a>
+            </li>
+            </ul>
     </footer>
-
 </body>
 
 </html>

@@ -1,135 +1,227 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap');
-
-
-
-html * {
-   font-family: Poppins, sans-serif;
-   text-align: center;  
-   background-repeat: no-repeat;
-   background-attachment: fixed;
-   color:white;
-   
- }
-
- body {
-    background-image: url("../img/bg.jpg");
-    background-size: cover;    
-   
- }
-
- input {
-    border: 0;
-    background: none;
-    -webkit-appearance: none;
- }
-
- input[type="submit"] {
-    background:#314f7e;
-    color: white;
-    font-size: xx-large;
-    box-shadow: none;
-    border-radius: 10px;
-    position: relative;
-    padding: 10px;
-    top: 5px;
- }
- input[type="submit"]:hover{
-    background: #406E8E;
- }
-
- a{
-     color: white;
-     text-decoration: none;
- }
-
- .option_wrapper_box{
-    border-radius: 20px;
-    background-color: #161925; 
-    margin-top: 10px;
-    margin-left: 35%; 
-    margin-right: 35%; 
-    padding: 15px 0px;
- }
-
- .error{
-    border-radius: 5px;
-    max-width: 200px;
-    padding: 5px;
-    font-size: larger;
-    background-color: #161925;
-    color: rgb(250, 99, 99);
- }
- iframe{ 
-    background-color: white;
-    text-align: center;
-    width: 90%;
-    height: 80%
- }
-
-.fileuploadbox{
-   
-   font-size: larger;    
-   margin: 20px;
-   margin-top: 10px;
-   margin-left: 80px;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-
-.downloadlink{
-   font-size: xx-large;
-   padding: 10px;
-   position: absolute;
-   display: block;
-   background-color: #314f7e; 
-   border-radius: 5px;
+body {
+  font-family: Poppins, sans-serif;
+  color: white;
+  text-align: center;
+  background-image: url("../img/bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
-
+input {
+  border: 0;
+  background: none;
+}
+input[type="submit"] {
+  background: #314f7e;
+  color: white;
+  font-family: inherit;
+  font-size: xx-large;
+  box-shadow: none;
+  border-radius: 10px;
+  position: relative;
+  padding: 10px;
+  top: 5px;
+}
+input[type="submit"]:hover {
+  background: #406e8e;
+}
+a {
+  color: white;
+  text-decoration: none;
+}
+.titleimg img {
+  margin: 10px;
+  position: relative;
+  max-width: 550px;  
+  border-bottom: 5px solid rgba(255, 255, 255, 0);
+  transition: border-bottom 0.25s ease;
+}
+.titleimg img:hover, footer img:hover {
+  border-color:  rgba(255, 255, 255, 1);
+}
+.subtitle {
+  margin: 10px;
+  position: relative;
+  font-size: larger;
+}
+.option_wrapper_box {
+  display: block;
+  border-radius: 20px;
+  background-color: #161925;
+  position: relative;
+  margin: 0 auto;
+  max-width: 30%;
+  padding: 15px;
+}
+.error {
+  border-radius: 5px;
+  width: 75%;
+  margin: 0 auto;
+  padding: 5px;
+  font-size: larger;
+  background-color: #161925;
+  color: rgb(250, 99, 99);
+}
+iframe {
+  background-color: white;
+  text-align: center;
+  width: 90%;
+  height: 80%;
+}
+.fileuploadbox {
+  font-family: inherit;
+  font-size: large;
+  margin-top: 10px;
+}
+.downloadlink {
+  font-size: larger;
+  width: 75%;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: #314f7e;
+  border-radius: 5px;
+}
 .downloadlink:hover{
-   background: #406E8E;
+  background: #406e8e;
+  transition: all 0.25s ease-in-out;
+}
+.data {
+  display: flex;
+  overflow: hidden;
+  border: 2px solid rgb(199, 199, 199);
+  padding: 10px 0;
+  margin: 0 auto;
+  max-width: 500px;
+  max-height: 500px;
+  background-color: #333;
+  color: white;
+  font-family: Source Code Pro, monospace;
+}
+select {
+  color: black;
 }
 
-.data { 
-   display: flexbox;
-   overflow: hidden;
-   border: 2px solid rgb(199, 199, 199);
-   padding: 10px 0px;
-   margin-left: 32.5%;
-   margin-right: 32.5%;
-   max-width: 500px;
-   max-height: 500px;
-   background-color: #333;
-   color:white;
-   font-family: Source Code Pro, monospace;
+.output-img {
+  position: relative;
 }
-
-.titleimg:hover{
-   border-bottom: 5px solid white;
-}
-
-select{
-   color:black;
-}
-
 footer {
-   position: fixed;
-   left: 0;
-   bottom: 0;
-   width: 100%;
-   height: 50px;
-   background-color: #161925;
-   overflow: hidden;
- }
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #161925;
+  text-align: center;
+}
+footer ul {
+  list-style-type: none;
+}
+footer li {
+  display: inline-block;
+}
+footer a {
+  padding: 0 50px;
+  color: white;
+  text-decoration: none;
+}
+footer a:hover {
+  color: #5797ff;
+  transition: color 0.25s ease-in-out;
+}
+footer img {
+  max-width: 200px; 
+  border-bottom: 5px solid rgba(255, 255, 255, 0);
+  transition: border-bottom 0.25s ease;
+}
 
- footer a{
-   margin: 0;
-  position: absolute;
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-   color: rgb(255, 255, 255);
-   white-space: nowrap
- }
+/* result.html */
+.column {
+  float: left;
+  margin: 0 auto;
+  width: 50%;
+  padding: 0px;
+}
+.center,.right {
+  width: 20%;
+}
 
- footer a:hover{
-    color: #5797ff;
- }
+.left {
+  width: 50%;  
+  border-right: 3px solid white;
+}
+.left img {
+  max-width: 400px;
+  max-height: 400px;
+  object-fit: fill;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 900px) {
+  html,
+  body {
+    overflow-x: hidden;
+    font-size: 3.5vw;
+  }
+  body {
+    position: relative;
+  }
+  .titleimg img {
+    max-width: 350px;
+  }
+  .option_wrapper_box {
+    margin: 0 auto;
+    margin-top: 20px;
+    max-width: 85%;
+  }
+  .fileuploadbox {
+    font-size: 3.5vw;
+  }
+  input[type="submit"] {
+    font-size: x-large;
+  }
+  footer {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  footer li {
+    padding: 10px 0;
+  }
+  footer ul {
+    padding: 0;
+    text-align: left;
+    list-style-type: none;
+  }
+  footer img {
+    max-width: 150px;
+  }
+
+  /* result.html */
+  .column {
+    float: none;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    height: auto;
+  }
+  .left, .center, .right{
+    padding: 15px 0;
+    width: 100%;
+  }
+  .left img {
+    max-width: 300px;
+    max-height: 300px;
+    object-fit: fill;
+    overflow: hidden;
+  }
+
+  .data{
+    max-width: 300px;
+    max-height: 300px;
+  }
+}

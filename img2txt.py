@@ -59,7 +59,10 @@ def main(input, mode, num_cols, scale):
         num_cols = int(width / cell_width)
         num_rows = int(height / cell_height)
 
+    # create and open the temporary file in text mode
     temp = tempfile.TemporaryFile(mode='w+t')
+
+    # write to the file
     for i in range(num_rows):
         for j in range(num_cols):
             temp.writelines(CHAR_LIST[min(
@@ -72,6 +75,6 @@ def main(input, mode, num_cols, scale):
                     num_chars / 255), num_chars - 1)])
         temp.writelines("\n")
 
-    # print(temp.name)
+    # set the file pointer at the beginning of the file
     temp.seek(0)
     return temp.read(), errors
