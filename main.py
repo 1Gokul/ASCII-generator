@@ -13,6 +13,7 @@ im = pyimgur.Imgur(os.environ.get("IMGUR_KEY"))
 
 app.config['UPLOAD_FOLDER'] = '/tmp/'
 
+MAX_FILE_SIZE = 5.0 # 5MB max image size to prevent Heroku timeout 
 
 @app.route('/')
 def index():
@@ -30,54 +31,79 @@ def upload_file():
             return render_template('input.html',
                                    error="Select an image first.")
         if file:
-            inputimg = b64encode(file.read())
-            inp = im._send_request('https://api.imgur.com/3/image',
-                                   method='POST',
-                                   params={'image': inputimg})
-            print(inp['link'])
-            if request.form.get('type') == 'img':
-                outputimg, errors = img2img.main(
-                    str(inp['link']), str(request.form.get('mode')),
-                    str(request.form.get('background')),
-                    int(request.form.get('num_cols')),
-                    int(request.form.get('scale')))
+            file.seek(0, 2)
+            filesize = float(file.tell()) / 1000000
 
-                outimg = b64encode(outputimg)
-                out = im._send_request('https://api.imgur.com/3/image',
+            if (filesize < float(MAX_FILE_SIZE)):
+                file.seek(0)
+                inputimg = b64encode(file.read())
+                inp = im._send_request('https://api.imgur.com/3/image',
                                        method='POST',
-                                       params={'image': outputimg})
-                print(out['link'])
-                outlink = out['link'].replace('https://i.imgur.com/', '')
-                outlink = outlink.replace('.jpg', '')
-                print(outlink)
-                return render_template('result.html',
-                                       type='img',
-                                       output_file=outlink,
-                                       outimg=outimg,
-                                       errors=errors)
+                                       params={'image': inputimg})
+                print(inp['link'])
+                if request.form.get('type') == 'img':
+                    outputimg, errors = img2img.main(
+                        str(inp['link']), str(request.form.get('mode')),
+                        str(request.form.get('background')),
+                        int(request.form.get('num_cols')),
+                        int(request.form.get('scale')))
+
+                    outimg = b64encode(outputimg)
+                    out = im._send_request('https://api.imgur.com/3/image',
+                                           method='POST',
+                                           params={'image': outputimg})
+                    print(out['link'])
+                    outlink = out['link'].replace('https://i.imgur.com/', '')
+                    outlink = outlink.replace('.jpg', '')
+                    print(outlink)
+                    return render_template('result.html',
+                                           type='img',
+                                           output_file=outlink,
+                                           outimg=outimg,
+                                           errors=errors)
+                else:
+                    outputtxt, errors = img2txt.main(
+                        str(inp['link']), str(request.form.get('mode')),
+                        int(request.form.get('num_cols')),
+                        int(request.form.get('scale')))
+
+                    # upload the converted text to paste.ee
+                    paste = Paste(outputtxt,
+                                  private=False,
+                                  desc=inp['link'],
+                                  views=10)
+
+                    # raw and download links
+                    raw_link = paste['raw']
+                    dl_link = paste['download']
+
+                    # Reduce the size of the preview text so that it doesn't overflow
+                    font_size = int(request.form.get('num_cols')) / (
+                        100 * int(request.form.get('scale')))
+
+                    return render_template('result.html',
+                                           type='txt',
+                                           output_file=outputtxt,
+                                           raw_link=raw_link,
+                                           dl_link=dl_link,
+                                           size=font_size,
+                                           errors=errors)
             else:
-                outputtxt, errors = img2txt.main(
-                    str(inp['link']), str(request.form.get('mode')),
-                    int(request.form.get('num_cols')),
-                    int(request.form.get('scale')))
+                return render_template('input.html',
+                                       error="The selected file's size was " +
+                                       "{0:.2f}".format(filesize) +
+                                       "MB > " + str(MAX_FILE_SIZE) +
+                                       "MB. Kindly upload a smaller file.")
 
-                                # upload the converted text to paste.ee
-                paste = Paste(outputtxt, private=False, desc=inp['link'], views=10)
 
-                # raw and download links
-                raw_link = paste['raw']
-                dl_link = paste['download']
+@app.errorhandler(413)
+def request_entity_too_large(error):
+    return 'File Too Large', 413
 
-                # Reduce the size of the preview text so that it doesn't overflow
-                font_size = int(request.form.get('num_cols')) / (100 * int(request.form.get('scale')))
 
-                return render_template('result.html',
-                                       type='txt',
-                                       output_file=outputtxt,
-                                       raw_link=raw_link,
-                                       dl_link=dl_link,
-                                       size=font_size,
-                                       errors=errors)
+@app.errorhandler(404)
+def request_page_not_found(error):
+    return 'File doesnt exist', 404
 
 
 if __name__ == '__main__':

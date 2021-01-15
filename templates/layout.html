@@ -3,7 +3,7 @@
 <head>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
-
+    
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -12,34 +12,30 @@
 </head>
 
 <body>
-    <div id="page-container">
-        <div id="content-wrap">
-        <a href="{{ url_for('index') }} " class="titleimg">
-            <img src="{{ url_for('static', filename='img/title.png') }}" />
-        </a>
+    <a href="{{ url_for('index') }} " class="titleimg">
+        <img src="{{ url_for('static', filename='img/title.png') }}" />
+    </a>
 
-        {% block body %} {% endblock %}
+    {% block body %} {% endblock %}
 
-        </div>
-        <footer>
+    <footer>
             <ul>
                 <li>
                     <a href="{{ url_for('index') }} ">
                         <img src="{{ url_for('static', filename='img/title.png') }}" />
                     </a>
                 </li>
-                <li>
-                    <a href="https://github.com/1Gokul/ASCII-generator">This website's github repo</a>
-                </li>
-                <li>
-                    <a href="https://1gokul.github.io/">Gokul Viswanath</a>
-                </li>
-                <li>
-                    <a href="https://shubhamxb.github.io/">Shubham Bhagwat</a>
-                </li>
+            <li>
+                <a href="https://github.com/1Gokul/ASCII-generator">This website's github repo</a>
+            </li>
+            <li>
+                <a href="https://1gokul.github.io/">Gokul Viswanath</a>
+            </li>
+            <li>
+                <a href="https://shubhamxb.github.io/">Shubham Bhagwat</a>
+            </li>
             </ul>
-        </footer>
-    </div>
+    </footer>
 </body>
 
 </html>
