@@ -12,7 +12,7 @@ app = Flask(__name__)
 im = pyimgur.Imgur(os.environ.get("IMGUR_KEY"))
 
 app.config['UPLOAD_FOLDER'] = '/tmp/'
-app.config['MAX_CONTENT_LENGTH'] = 5000000 # 5MB size limit for uploading files.
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 5 # 5MB size limit for uploading files.
 
 
 @app.route('/')
@@ -89,10 +89,9 @@ def upload_file():
 @app.errorhandler(413)
 def request_entity_too_large(error):
     return render_template('input.html',
-                           error="The selected file's size was " +
-                           "{0:.2f}".format(filesize) + "MB > " +
+                           error="The selected file's size was larger than the "+
                            str(app.config["MAX_CONTENT_LENGTH"] / 1000000) +
-                           "MB. Kindly upload a smaller file.")
+                           "MB limit. Kindly upload a smaller file.")
 
 
 @app.errorhandler(404)
