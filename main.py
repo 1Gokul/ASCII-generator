@@ -88,12 +88,10 @@ def upload_file():
 
 @app.errorhandler(413)
 def request_entity_too_large(error):
-    return 'File Too Large', 413
-
-    # return render_template('input.html',
-    #                        error="The selected file's size was larger than the "+
-    #                        str(app.config["MAX_CONTENT_LENGTH"] / 1000000) +
-    #                        "MB limit. Kindly upload a smaller file.")
+    return render_template('input.html',
+                           error="The selected file's size was larger than the "+
+                           str(app.config["MAX_CONTENT_LENGTH"] / 1000000) +
+                           "MB limit. Kindly upload a smaller file."), 413
 
 
 @app.errorhandler(404)
