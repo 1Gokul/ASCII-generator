@@ -9,7 +9,6 @@ import os
 
 app = Flask(__name__)
 
-
 im = pyimgur.Imgur(os.environ.get("IMGUR_KEY"))
 
 app.config['UPLOAD_FOLDER'] = '/tmp/'
@@ -82,4 +81,4 @@ def upload_file():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, threaded=True)
