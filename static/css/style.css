@@ -1,5 +1,6 @@
 html,
 body {
+  scroll-behavior: smooth;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -17,7 +18,7 @@ input {
   border: 0;
   background: none;
 }
-input[type="submit"] {
+input[type="button"] {
   background: #314f7e;
   color: white;
   font-family: inherit;
@@ -26,9 +27,10 @@ input[type="submit"] {
   border-radius: 10px;
   position: relative;
   padding: 10px;
-  top: 5px;
+  top: 5px;  
+  transition: background 0.25s linear;
 }
-input[type="submit"]:hover {
+input[type="button"]:hover {
   background: #0062a8;
   transition: all 0.25s ease;
 }
@@ -62,10 +64,12 @@ a {
   padding: 15px;
 }
 .error {
+  position: relative;
   border-radius: 5px;
   width: 50%;
-  margin: 10px auto;
-  padding: 5px;
+  height: auto;
+  margin: 0px auto;
+  padding: 0 15px;
   font-size: larger;
   background-color: #161925;
   color: rgb(250, 99, 99);
@@ -84,7 +88,7 @@ iframe {
 .downloadlink {
   font-size: larger;
   width: 75%;
-  margin: 0 auto;
+  margin: 2.5px auto;
   padding: 10px;
   background-color: #314f7e;
   border-radius: 5px;
@@ -112,22 +116,44 @@ select {
 .output-img {
   position: relative;
 }
+
+#page-content-container{
+  margin-bottom: 2em;
+  min-height: 100%;
+  overflow: auto;
+  padding: 0 2em;
+}
+
+.result-title{
+  margin: 10px;
+  position: relative;
+  font-size: 72; 
+  padding: 50px; 
+  font-weight:900; 
+  margin-top:100px;
+}
+
 footer {
-  position: fixed;
+  display: table;
+  position: relative;
   bottom: 0;
   left: 0;
   width: 100%;
   background-color: #161925;
   text-align: center;
+  overflow: hidden;
 }
 footer ul {
   list-style-type: none;
+  width: 100%;
 }
 footer li {
+  padding: 0 50px;
+  display: table-cell;
+  vertical-align: top;
   display: inline-block;
 }
 footer a {
-  padding: 0 50px;
   color: white;
   text-decoration: none;
 }
@@ -186,13 +212,27 @@ footer img {
   input[type="submit"] {
     font-size: x-large;
   }
+
+  .result-title{
+    padding: 0;
+    margin: 0;
+    font-size: 50;
+    text-align: center;
+  }
+
+  
+.left {
+  border-right:none;
+}
   footer {
     position: relative;
     width: 100%;
     overflow: hidden;
   }
   footer li {
-    padding: 10px 0;
+    
+  display: block;
+    padding: 5px 40px;
   }
   footer ul {
     padding: 0;

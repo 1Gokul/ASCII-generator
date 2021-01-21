@@ -1,97 +1,129 @@
-from flask import Flask, render_template, request, send_from_directory
+from flask import Flask, render_template, request, send_from_directory, jsonify
+from flask_jsglue import JSGlue
 from werkzeug.utils import secure_filename
 from PIL import Image
-import pyimgur
-from base64 import b64encode
-import img2img, img2txt
-from pasteee import Paste
+from base64 import b64encode, b64decode
 import os
 
-app = Flask(__name__)
+from imageoperations import upload_image, convert_image
 
-im = pyimgur.Imgur(os.environ.get("IMGUR_KEY"))
+from rq import Queue
+from worker import conn
+
+app = Flask(__name__)
+jsglue = JSGlue(app)
+
+q = Queue(connection=conn
+          )  # create an RQ queue. Will be used for the uploadImage() function.
+
+os.environ["MAX_FILE_SIZE"] = "20"
 
 app.config['UPLOAD_FOLDER'] = '/tmp/'
-app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 5 # 5MB size limit for uploading files.
+# app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 5 # 5MB size limit for uploading files.
 
 
-@app.route('/')
-def index():
-    return render_template('input.html')
+@app.route('/', methods=['GET', 'POST'])
+def index(error=" "):
+    if (request.method == 'POST'):
+        error = request.form.get('error')
 
-
-@app.route('/convert', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        if 'file' not in request.files:
-            return render_template('input.html',
-                                   error="Select an image first.")
-        file = request.files['file']
-        if file.filename == '':
-            return render_template('input.html',
-                                   error="Select an image first.")
-        if file:
-
-            inputimg = b64encode(file.read())
-            inp = im._send_request('https://api.imgur.com/3/image',
-                                   method='POST',
-                                   params={'image': inputimg})
-            print(inp['link'])
-            if request.form.get('type') == 'img':
-                outputimg, errors = img2img.main(
-                    str(inp['link']), str(request.form.get('mode')),
-                    str(request.form.get('background')),
-                    int(request.form.get('num_cols')),
-                    int(request.form.get('scale')))
-
-                outimg = b64encode(outputimg)
-                out = im._send_request('https://api.imgur.com/3/image',
-                                       method='POST',
-                                       params={'image': outputimg})
-                print(out['link'])
-                outlink = out['link'].replace('https://i.imgur.com/', '')
-                outlink = outlink.replace('.jpg', '')
-                print(outlink)
-                return render_template('result.html',
-                                       type='img',
-                                       output_file=outlink,
-                                       outimg=outimg,
-                                       errors=errors)
-            else:
-                outputtxt, errors = img2txt.main(
-                    str(inp['link']), str(request.form.get('mode')),
-                    int(request.form.get('num_cols')),
-                    int(request.form.get('scale')))
-
-                # upload the converted text to paste.ee
-                paste = Paste(outputtxt,
-                              private=False,
-                              desc=inp['link'],
-                              views=10)
-
-                # raw and download links
-                raw_link = paste['raw']
-                dl_link = paste['download']
-
-                # Reduce the size of the preview text so that it doesn't overflow
-                font_size = int(request.form.get('num_cols')) / (
-                    100 * int(request.form.get('scale')))
-
-                return render_template('result.html',
-                                       type='txt',
-                                       output_file=outputtxt,
-                                       raw_link=raw_link,
-                                       dl_link=dl_link,
-                                       size=font_size,
-                                       errors=errors)
-
-
-@app.errorhandler(413)
-def request_entity_too_large(error):
     return render_template('input.html',
-                           error="The selected file's size was larger than the "+
-                           str(app.config["MAX_CONTENT_LENGTH"] / 1000000) +
-                           "MB limit. Kindly upload a smaller file."), 413
+                           maxFileSize=os.environ.get("MAX_FILE_SIZE"),
+                           error=error)
+
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if (request.method == 'POST'):
+        if (is_base64(request.files.get('file'))):
+            imgData = request.files.get('file')
+        else:
+            imgData = b64encode(request.files.get('file').read())
+
+    # Start the upload as a background task in the Redis queue
+    task = q.enqueue(upload_image, imgData)
+
+    # create a dictionary with the ID of the task
+    responseObject = {"status": "success", "data": {"taskID": task.get_id()}}
+    # return the dictionary
+    return jsonify(responseObject)
+
+    # elif (request.form.get('type') == 'txt'):
+    # outputtxt, errors = img2txt.main(str(inp['link']),
+    #                                  str(request.form.get('mode')),
+    #                                  int(request.form.get('num_cols')),
+    #                                  int(request.form.get('scale')))
+
+    #     # upload the converted text to paste.ee
+    #     paste = Paste(outputtxt, private=False, desc=inp['link'], views=10)
+
+    #     # raw and download links
+    #     raw_link = paste['raw']
+    #     dl_link = paste['download']
+
+    #     # Reduce the size of the preview text so that it doesn't overflow
+    #     font_size = int(request.form.get('num_cols')) / (
+    #         100 * int(request.form.get('scale')))
+
+    #     return render_template('result.html',
+    #                            type='txt',
+    #                            output_file=outputtxt,
+    #                            raw_link=raw_link,
+    #                            dl_link=dl_link,
+    #                            size=font_size,
+    #                            errors=errors)
+
+
+@app.route('/tasks/<taskID>', methods=['GET'])
+def get_status(taskID):
+    task = q.fetch_job(taskID)
+
+    # If such a job exists, return its info
+    if (task):
+        responseObject = {
+            "success": "success",
+            "data": {
+                "taskID": task.get_id(),
+                "taskStatus": task.get_status(),
+                "taskResult": task.result
+            }
+        }
+
+    else:
+        responseObject = {"status": "error"}
+
+    return responseObject
+
+
+@app.route('/convert', methods=['POST'])
+def convert_file():
+    if (request.method == 'POST'):
+
+        # Start the image conversion as a background task in the Redis Queue
+        task = q.enqueue(convert_image, str(request.form.get('imglink')),
+                         str(request.form.get('type')),
+                         str(request.form.get('mode')),
+                         str(request.form.get('bg')),
+                         int(request.values.get('num_cols')),
+                         int(request.values.get('scale')))
+
+        # create a dictionary with the ID of the task
+        responseObject = {
+            "status": "success",
+            "data": {
+                "taskID": task.get_id()
+            }
+        }
+
+        # return the dictionary
+        return jsonify(responseObject)
+
+
+def is_base64(file):
+    try:
+        return b64decode(file.encode('ascii')) == file
+    except Exception:
+        return False
 
 
 @app.errorhandler(404)
