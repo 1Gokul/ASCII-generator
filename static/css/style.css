@@ -14,6 +14,8 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
+/*   Submit Button    */
 input {
   border: 0;
   background: none;
@@ -30,15 +32,20 @@ input[type="button"] {
   top: 5px;  
   transition: background 0.25s linear;
 }
+
 input[type="button"]:hover {
   background: #0062a8;
   transition: all 0.25s ease;
 }
+
+/*   Links    */
 a {
   color: white;
   text-decoration: none;
 }
 
+
+/*   Page Logo    */
 .titleimg img {
   margin: 10px;
   position: relative;
@@ -49,11 +56,15 @@ a {
 .titleimg img:hover, footer img:hover {
   border-color:  rgba(255, 255, 255, 1);
 }
+
+/*   Subtitle after Page Logo    */
 .subtitle {
   margin: 10px;
   position: relative;
   font-size: larger;
 }
+
+/*   Box that holds the conversion options    */
 .option_wrapper_box {
   display: block;
   border-radius: 20px;
@@ -63,6 +74,13 @@ a {
   max-width: 30%;
   padding: 15px;
 }
+
+/*  select options that are inside the option wrapper box above     */
+select {
+  color: black;
+}
+
+/*   Error messages    */
 .error {
   position: relative;
   border-radius: 5px;
@@ -74,17 +92,15 @@ a {
   background-color: #161925;
   color: rgb(250, 99, 99);
 }
-iframe {
-  background-color: white;
-  text-align: center;
-  width: 90%;
-  height: 80%;
-}
+
+/*   File choosing menu    */
 .fileuploadbox {
   font-family: inherit;
   font-size: large;
   margin-top: 10px;
 }
+
+/*   Download links    */
 .downloadlink {
   font-size: larger;
   width: 75%;
@@ -97,6 +113,17 @@ iframe {
   background: #406e8e;
   transition: all 0.25s ease-in-out;
 }
+
+
+/*   Box in which the converted text is shown    */
+iframe {
+  background-color: white;
+  text-align: center;
+  width: 90%;
+  height: 80%;
+}
+
+/*  Text inside the iframe    */
 .data {
   display: flex;
   overflow: hidden;
@@ -109,21 +136,20 @@ iframe {
   color: white;
   font-family: Source Code Pro, monospace;
 }
-select {
-  color: black;
-}
 
+/*  Converted image    */
 .output-img {
   position: relative;
 }
 
+/*   Wrapper box for the page body    */
 #page-content-container{
-  margin-bottom: 2em;
+  margin-bottom: 75px;
   min-height: 100%;
   overflow: auto;
-  padding: 0 2em;
 }
 
+/*   Titles that show after conversion i.e. "Your converted image" etc    */
 .result-title{
   margin: 10px;
   position: relative;
@@ -133,41 +159,8 @@ select {
   margin-top:100px;
 }
 
-footer {
-  display: table;
-  position: relative;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #161925;
-  text-align: center;
-  overflow: hidden;
-}
-footer ul {
-  list-style-type: none;
-  width: 100%;
-}
-footer li {
-  padding: 0 50px;
-  display: table-cell;
-  vertical-align: top;
-  display: inline-block;
-}
-footer a {
-  color: white;
-  text-decoration: none;
-}
-footer a:hover {
-  color: #5797ff;
-  transition: color 0.25s ease-in-out;
-}
-footer img {
-  max-width: 200px; 
-  border-bottom: 5px solid rgba(255, 255, 255, 0);
-  transition: border-bottom 0.25s ease;
-}
-
-/* result.html */
+/*   Results are in a 3 column layout.    */
+/*    Result-image   | Errors(if any) | Download Links    */
 .column {
   float: left;
   margin: 0 auto;
@@ -189,6 +182,41 @@ footer img {
   overflow: hidden;
 }
 
+/*   Footer    */
+footer {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 75px;
+  background-color: #161925;
+  text-align: center;
+  overflow: hidden;
+}
+footer ul {
+  margin: 0;
+  list-style-type: none;
+}
+footer li {
+  padding: 10px 40px;
+  vertical-align: middle;
+  display: inline-block;
+}
+footer a {
+  color: white;
+  text-decoration: none;
+}
+footer a:hover {
+  color: #5797ff;
+  transition: color 0.25s ease-in-out;
+}
+footer img {
+  max-width: 200px; 
+  border-bottom: 5px solid rgba(255, 255, 255, 0);
+  transition: border-bottom 0.25s ease;
+}
+
+/*    For mobile    */
 @media screen and (max-width: 900px) {
   html,
   body {
@@ -209,8 +237,10 @@ footer img {
   .fileuploadbox {
     font-size: 3.5vw;
   }
-  input[type="submit"] {
-    font-size: x-large;
+
+  #result-box{
+    box-sizing: border-box;
+    margin: 30px;
   }
 
   .result-title{
@@ -227,12 +257,13 @@ footer img {
   footer {
     position: relative;
     width: 100%;
+    height: auto;
     overflow: hidden;
   }
   footer li {
     
-  display: block;
-    padding: 5px 40px;
+    display: block;
+    padding: 10px 40px;
   }
   footer ul {
     padding: 0;
@@ -243,7 +274,6 @@ footer img {
     max-width: 150px;
   }
 
-  /* result.html */
   .column {
     float: none;
     width: 100%;

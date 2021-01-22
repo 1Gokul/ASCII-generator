@@ -1,84 +1,125 @@
-{% extends "layout.html" %}
+<html>
 
-{% block head %}
-{{ JSGlue.include() }}
-<script type="text/javascript">
-   var maxFileSize = "{{ maxFileSize }}"
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='js/input.js')}}"></script>
+<head>
+   <title>Pic2ASCII</title>
 
-{% endblock %}
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+   <link rel="Stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
 
-{% block body %}
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+   <!-- JSGlue is for Ajax queries to Flask -->
+   {{ JSGlue.include() }}
+   <script type="text/javascript">
+      var maxFileSize = "{{ maxFileSize }}"
+   </script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script type="text/javascript" src="{{ url_for('static', filename='js/input.js')}}"></script>
 
 
-<div id="page-content-container">
-<form id="inputform" enctype="multipart/form-data" name="imageform">
-   <p id="subtitle" class="subtitle">Select and upload the image you want to convert. (Max file size: 20MB)<br>
-      <input id="inputform-file" type="file" name="file" class="fileuploadbox">
-   </p>
-   {% if error != ' ' %}
-   <p class="error" style="position: relative;">{{ error }}</p>
-   {% endif %}
+</head>
 
-   <div class="option_wrapper_box">
-      <p>
-         <label for="type">Convert to an image or plain text?</label>
-         <select id="type" name="type" name="typelist">
-            <option value="img">Image</option>
-            <option value="txt">Text</option>
-         </select>
-      </p>
 
-      <p>
-         <label for="mode">Use simple or complex characters?</label>
-         <select id="mode" name="mode" name="typelist">
-            <option value="simple">Simple</option>
-            <option value="complex">Complex</option>
-         </select>
-      </p>
+<body>
+   <!-- Title image -->
+   <a href="{{ url_for('index') }} " class="titleimg">
+      <img src="{{ url_for('static', filename='img/title.png') }}" />
+   </a>
 
-      <p>
-         <label for="num_cols">Number of columns?<br> (More columns = more detail)</label>
-         <select id="num_cols" name="num_cols">
-            <option value="125">125</option>
-            <option value="250">250</option>
-            <option value="375">375</option>
-            <option value="500">500</option>
-            <option value="625">625</option>
-            <option value="750">750</option>
-            <option value="875">875</option>
-            <option value="1000">1000</option>
-         </select>
-      </p>
+   <div id="page-content-container">
 
-      <p>
-         <label for="scale">Scale?</label>
-         <select id="scale" name="scale" name="typelist">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-         </select>
-      </p>
+      <!-- Data input form -->
 
-      <p>
-         <span style="color: rgb(250, 99, 99);">ONLY IF CONVERTING TO IMAGE</span>
-         <label for="bg"> <br> White or Black background?</label>
-         <select id="bg" name="background" name="typelist">
-            <option value="white">White</option>
-            <option value="black">Black</option>
-         </select>
-      </p>
+      <form id="inputform" enctype="multipart/form-data" name="imageform">
+         <p id="subtitle" class="subtitle">Select and upload the image you want to convert. (Max file size: 20MB)<br>
+            <input id="inputform-file" type="file" name="file" class="fileuploadbox">
+         </p>
+         {% if error != ' ' %}
+         <p class="error" style="position: relative;">{{ error }}</p>
+         {% endif %}
 
-      <p>
-        <input id="submitbutton" type="button" value="Submit Image" />
-      </p>
+         <div class="option_wrapper_box">
+            <p>
+               <label for="type">Convert to an image or plain text?</label>
+               <select id="type" name="type" name="typelist">
+                  <option value="img">Image</option>
+                  <option value="txt">Text</option>
+               </select>
+            </p>
+
+            <p>
+               <label for="mode">Use simple or complex characters?</label>
+               <select id="mode" name="mode" name="typelist">
+                  <option value="simple">Simple</option>
+                  <option value="complex">Complex</option>
+               </select>
+            </p>
+
+            <p>
+               <label for="num_cols">Number of columns?<br> (More columns = more detail)</label>
+               <select id="num_cols" name="num_cols">
+                  <option value="125">125</option>
+                  <option value="250">250</option>
+                  <option value="375">375</option>
+                  <option value="500">500</option>
+                  <option value="625">625</option>
+                  <option value="750">750</option>
+                  <option value="875">875</option>
+                  <option value="1000">1000</option>
+               </select>
+            </p>
+
+            <p>
+               <label for="scale">Scale?</label>
+               <select id="scale" name="scale" name="typelist">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+               </select>
+            </p>
+
+            <p>
+               <span style="color: rgb(250, 99, 99);">ONLY IF CONVERTING TO IMAGE</span>
+               <label for="bg"> <br> White or Black background?</label>
+               <select id="bg" name="background" name="typelist">
+                  <option value="white">White</option>
+                  <option value="black">Black</option>
+               </select>
+            </p>
+
+            <p>
+               <input id="submitbutton" type="button" value="Submit Image" />
+            </p>
+         </div>
+      </form>
+
+      <!-- To show the converted image/text -->
+
+      <div id="result-box"></div>
    </div>
-</form>
-<div id="result-box" style="box-sizing: border-box; margin: 60px 0;"></div>
-</div>
 
-{% endblock %}
+   <!-- Footer -->
+   <footer>
+      <ul>
+         <li>
+            <a href="{{ url_for('index') }} ">
+               <img src="{{ url_for('static', filename='img/title.png') }}" />
+            </a>
+         </li>
+         <li>
+            <a href="https://github.com/1Gokul/ASCII-generator">This website's github repo</a>
+         </li>
+         <li>
+            <a href="https://1gokul.github.io/">Gokul Viswanath</a>
+         </li>
+         <li>
+            <a href="https://shubhamxb.github.io/">Shubham Bhagwat</a>
+         </li>
+      </ul>
+   </footer>
+</body>
+
+</html>
