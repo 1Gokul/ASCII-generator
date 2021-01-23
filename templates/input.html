@@ -1,12 +1,12 @@
 <html>
 
 <head>
-   <title>pic2ascii</title>
+   <title>Pic2ASCII</title>
 
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Questrial">
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
-  <link rel="icon" href="/static/img/favicon.ico" type="image/gif" sizes="16x16">
-  <link rel="Stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+   <link rel="icon" href="/static/img/favicon.ico" type="image/gif" sizes="16x16">
+   <link rel="Stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
 
    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -14,7 +14,6 @@
    {{ JSGlue.include() }}
    <script type="text/javascript">
       var maxFileSize = "{{ maxFileSize }}"
-      var apiKey = "{{ apiKey }}"
    </script>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    <script type="text/javascript" src="{{ url_for('static', filename='js/input.js')}}"></script>
