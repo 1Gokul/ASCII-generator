@@ -6,7 +6,9 @@ body {
   box-sizing: border-box;
 }
 body {
-  font-family: Poppins, sans-serif;
+  font-family: Questrial, sans-serif;
+  font-weight: 300;
+  font-size: 17;
   color: white;
   text-align: center;
   background-image: url("../img/bg.jpg");
@@ -62,6 +64,10 @@ a {
   margin: 10px;
   position: relative;
   font-size: larger;
+  display: inline-block;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: rgba(51, 51, 51, 0.7);
 }
 
 /*   Box that holds the conversion options    */
@@ -144,7 +150,7 @@ iframe {
 
 /*   Wrapper box for the page body    */
 #page-content-container{
-  margin-bottom: 75px;
+  margin-bottom: 53px;
   min-height: 100%;
   overflow: auto;
 }
