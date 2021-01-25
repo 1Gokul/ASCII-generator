@@ -1,6 +1,6 @@
 # ASCII generator
 
-Front-end to the ASCII generator repo this was forked from. Made as a hobby project to test and improve my web development skills.
+Front-end to the ASCII generator repo this was forked from.
 
 ## Note: 
 You can test out the program before V2 here: [pic-2ascii.herokuapp.com](https://pic-2ascii.herokuapp.com/)
