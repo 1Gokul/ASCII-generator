@@ -97,7 +97,7 @@ select {
 .fileuploadbox {
   font-family: inherit;
   font-size: large;
-  margin-top: 10px;
+  margin: 10px;
 }
 
 /*   Download links    */

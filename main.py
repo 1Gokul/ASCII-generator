@@ -13,13 +13,8 @@ from worker import conn
 app = Flask(__name__)
 jsglue = JSGlue(app)
 
-q = Queue(connection=conn
-          )  # create an RQ queue. Will be used for the uploadImage() function.
-
 os.environ["MAX_FILE_SIZE"] = "20"
-
 app.config['UPLOAD_FOLDER'] = '/tmp/'
-# app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 5 # 5MB size limit for uploading files.
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -43,10 +38,10 @@ def upload_file():
     # Start the upload as a background task in the Redis queue
     task = q.enqueue(upload_image, imgData)
 
-    # create a dictionary with the ID of the task
-    responseObject = {"status": "success", "data": {"taskID": task.get_id()}}
-    # return the dictionary
-    return jsonify(responseObject)
+#     # create a dictionary with the ID of the task
+#     responseObject = {"status": "success", "data": {"taskID": task.get_id()}}
+#     # return the dictionary
+#     return jsonify(responseObject)
 
     # elif (request.form.get('type') == 'txt'):
     # outputtxt, errors = img2txt.main(str(inp['link']),
@@ -89,8 +84,8 @@ def get_status(taskID):
             }
         }
 
-    else:
-        responseObject = {"status": "error"}
+#     else:
+#         responseObject = {"status": "error"}
 
     return responseObject
 
@@ -107,17 +102,18 @@ def convert_file():
                          int(request.values.get('num_cols')),
                          int(request.values.get('scale')))
 
-        # create a dictionary with the ID of the task
-        responseObject = {
-            "status": "success",
-            "data": {
-                "taskID": task.get_id()
-            }
-        }
-
+        
         # return the dictionary
+        return responseObject
+
+        # return the dictionary as JSON
         return jsonify(responseObject)
 
+# def is_base64(file):
+#     try:
+#         return b64decode(file.encode('ascii')) == file
+#     except Exception:
+#         return False
 
 def is_base64(file):
     try:

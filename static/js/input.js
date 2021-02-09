@@ -5,17 +5,12 @@ $(document).ready(function () {
 
     console.log("(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧");
     console.log("Hello there... I see you like to check the console!");
-    console.log("Not much here though... except C̶͓̥̆́ͮU̔R̵̙̟ͥ́̄̾̀S̿È͇̻̹̬͑ͦ͗͒̕D̛̦ͬ̀ ͕̉ͧT̢̜̹͕͉̓̅E̸̥̓̋̒҉̑X͖̼̘̙ͨ͝T͇͖̂̚S̟̪̱ͯ͑ͩ̍̕҉̞  normal task logs! See ya!");
+    console.log("Not much here though... except C̶͓̥̆́ͮU̔R̵̙̟ͥ́̄̾̀S̿È͇̻̹̬͑ͦ͗͒̕D̛̦ͬ̀ ͕̉ͧT̢̜̹͕͉̓̅E̸̥̓̋̒҉̑X͖̼̘̙ͨ͝T͇͖̂̚S̟̪̱ͯ͑ͩ̍̕҉̞  normal task logs! See ya!");    
     console.log("┬┴┬┴┤ ͜ʖ ͡°) ├┬┴┬┴");
 
 
     var conversionType;
     var errors;
-    window.convert_image = function (imglink) { };
-    window.send_file_to_upload = function (imgData) { };
-    window.display_converted_image = function (imglink) { };
-    window.display_converted_text = function (imglink) { };
-
     $(document).on('click', '#submitbutton', function () {
 
         conversionType = $("#type").val();
@@ -50,7 +45,9 @@ $(document).ready(function () {
 
 
                 console.log("uploading submitted file...");
-                send_file_to_upload($file, "convert_image");
+                // send_file_to_upload($file, "convert_image");
+
+                upload_through_JQuery($file);
             }
 
 
@@ -61,36 +58,7 @@ $(document).ready(function () {
         }
     });
 
-    function get_status(taskID, funcToCall) {
-        $.ajax({
-            method: 'GET',
-            url: `tasks/${taskID}`
-        })
-            .done((response) => {
-                const taskStatus = response.data.taskStatus;
-
-                if (taskStatus === 'failed') {
-                    console.log(response);
-                    return false;
-                }
-                else if (taskStatus == 'finished') {
-                    // Parse the returned JSON and return the link to the image.
-                    console.log(response);
-
-                    window[funcToCall](response.data.taskResult.result, response.data.taskResult.errors);
-                    return false;
-                }
-
-                // If the task hasn't been finished, try again in 1 second.
-                setTimeout(function () {
-                    get_status(response.data.taskID, funcToCall);
-                }, 1000);
-            })
-            .fail((error) => {
-                console.log(error);
-            });
-    }
-
+    
     // Send an Ajax POST request to Imgur's API to upload a file.
     function upload_to_imgur(fileToUpload) {
 
@@ -124,7 +92,7 @@ $(document).ready(function () {
         });
     }
 
-    window.convert_image = function (submittedImageData) {
+    convert_image = function (submittedImageData) {
         $('#submitbutton').css('background', '#d9bf00');
         $('#submitbutton').val('Converting...');
 
@@ -148,14 +116,13 @@ $(document).ready(function () {
         })
             .done((response) => {
 
-
                 /* Once the image conversion has started, call get_status while passing in the function to display the result.*/
                 if (conversionType == 'img') {
 
-                    get_status(response.data.taskID, "display_converted_image");
+                    get_status(response.data.taskID, display_converted_image);
                 }
                 else if (conversionType == 'txt') {
-                    get_status(response.data.taskID, "display_converted_text");
+                    get_status(response.data.taskID, display_converted_text);
                 }
             })
             .fail((error) => {
@@ -170,7 +137,7 @@ $(document).ready(function () {
         $("<div id=" + "error" + " class=" + "error" + ">" + error + "</p>").insertAfter("#subtitle");
     }
 
-    window.send_file_to_upload = function ($file, funcToCallOnceCompleted) {
+    send_file_to_upload = function ($file, funcToCallOnceCompleted) {
         // Would be accessed as a form in the API
         var formData = new FormData();
         formData.append('file', $file);
@@ -194,7 +161,7 @@ $(document).ready(function () {
             });
     }
 
-    window.display_converted_image = function (conversionResult, errors) {
+    display_converted_image = function (conversionResult, errors) {
         before_displaying_result();
         var html = "";
         html += '<p class="result-title"">Your converted image</p>';
@@ -205,12 +172,9 @@ $(document).ready(function () {
         html += '<div class="column right"><a class="downloadlink" href=' + conversionResult.dl + '>Download image</a></div>';
 
         $('#result-box').html(html);
-
-
-
     }
 
-    window.display_converted_text = function (conversionResult, errors) {
+    display_converted_text = function (conversionResult, errors) {
         before_displaying_result();
 
         var html = "";
@@ -225,13 +189,89 @@ $(document).ready(function () {
         $('#result-box').html(html);
     }
 
-});
 
-function before_displaying_result() {
-    $('#result-box').css('min-height', 500);
-    $(document.body).animate({
-        scrollTop: document.body.scrollHeight
-    }, 500);
-    $('#submitbutton').css('background', '#02d16d');
-    $('#submitbutton').val('All done! :D');
-}
+    function before_displaying_result() {
+        $('#result-box').css('min-height', 500);
+        $(document.body).animate({
+            scrollTop: document.body.scrollHeight
+        }, 500);
+        $('#submitbutton').css('background', '#02d16d');
+        $('#submitbutton').val('All done! :D');
+    }
+
+    function upload_through_JQuery(file) {
+
+        // Send an Ajax POST request to Imgur's API to upload a file.
+
+        // The image's data
+        var formData = new FormData();
+        formData.append('image', file);
+
+        // Taken from: https://apidocs.imgur.com/#c85c9dfc-7487-4de2-9ecd-66f727cf3139
+        var settings = {
+            "url": "https://api.imgur.com/3/image",
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+                "Authorization": "Client-ID " + apiKey
+            },
+            "processData": false,
+            "mimeType": "multipart/form-data",
+            "contentType": false,
+            "data": formData
+        };
+
+        // Upload the file to Imgur.
+        var imglink;
+
+        $.ajax(settings).done(function (response) {
+
+            // Parse the returned JSON and return the link to the image.
+            let parsedResponse = $.parseJSON(response);
+
+            // Data to be passed to the convert_image() function in the API.
+            var formData = new FormData();
+            formData.append('imglink', parsedResponse.data.link);
+            formData.append('type', $("#type").val());
+            formData.append('mode', $("#mode").val());
+            formData.append('num_cols', $("#num_cols").val());
+            formData.append('scale', $("#scale").val());
+            formData.append('bg', $("#bg").val());
+
+            $('#submitbutton').css('background', '#d9bf00');
+            $('#submitbutton').val('Converting...');
+
+            console.log("upload complete.. now converting the file...")
+
+            $.ajax({
+                "type": 'POST',
+                "url": Flask.url_for('convert_file'),
+                "data": formData,
+                "processData": false,
+                "contentType": false
+            })
+                .done((response) => {
+
+                    console.log("conversion completed successfully!");
+
+                    /* Once the image conversion has started, call get_status while passing in the function to display the result.*/
+                    if (conversionType == 'img') {
+
+                        display_converted_image(response.result, response.errors);
+                    }
+                    else if (conversionType == 'txt') {
+                        display_converted_text(response.result, response.errors);
+                    }
+                })
+                .fail((error) => {
+                    console.log("Error during file convert: " + error);
+                });
+        });
+
+
+
+
+    }
+
+
+});
