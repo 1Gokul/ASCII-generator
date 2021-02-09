@@ -34,14 +34,16 @@
       <!-- Data input form -->
 
       <form id="inputform" enctype="multipart/form-data" name="imageform">
-         <p id="subtitle" class="subtitle">Select and upload the image you want to convert. (Max file size: 20MB)<br>
-            <input id="inputform-file" type="file" name="file" class="fileuploadbox">
+         <p id="subtitle" class="subtitle">Select and upload the image you want to convert. (Max file size: 20MB)
          </p>
          {% if error != ' ' %}
          <p class="error" style="position: relative;">{{ error }}</p>
          {% endif %}
 
          <div class="option_wrapper_box">
+            <p>               
+            <input id="inputform-file" type="file" name="file" class="fileuploadbox">
+            </p>
             <p>
                <label for="type">Convert to an image or plain text?</label>
                <select id="type" name="type" name="typelist">
