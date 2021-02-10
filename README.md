@@ -1,11 +1,11 @@
-# ASCII generator
+# ASCII generator v2
 
 Front-end to the ASCII generator repo this was forked from.
 
 ## Note: 
-You can test out the program before V2 here: [pic-2ascii.herokuapp.com](https://pic-2ascii.herokuapp.com/)
+You can test out the program before v2 here: [pic-2ascii.herokuapp.com](https://pic-2ascii.herokuapp.com/)
 
-V2 will not be pushed to Heroku so as to not incur charges from its [Redis To Go](https://elements.heroku.com/addons/redistogo) addon, which is required for this project to run.
+v2 will not be pushed to Heroku so as to not incur charges from its [Redis To Go](https://elements.heroku.com/addons/redistogo) addon, which is required for this project to run.
 
 It can be run locally though. You can install it following the instructions below:
 
