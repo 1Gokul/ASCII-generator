@@ -3,7 +3,7 @@
 <head>
    <title>Pic2ASCII</title>
 
-   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Questrial">
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
    <link rel="icon" href="/static/img/favicon.ico" type="image/gif" sizes="16x16">
    <link rel="Stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
@@ -12,13 +12,7 @@
 
    <!-- JSGlue is for Ajax queries to Flask -->
    {{ JSGlue.include() }}
-   <script type="text/javascript">
-      var maxFileSize = "{{ maxFileSize }}"
-   </script>
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-   <script type="text/javascript" src="{{ url_for('static', filename='js/input.js')}}"></script>
-
-
+  
 </head>
 
 
@@ -123,6 +117,14 @@
          </li>
       </ul>
    </footer>
+
+   <!-- Scripts -->
+   <script type="text/javascript">
+      var maxFileSize = "{{ maxFileSize }}"
+   </script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+   <script type="text/javascript" src="{{ url_for('static', filename='js/input.js')}}"></script>
 </body>
 
 </html>

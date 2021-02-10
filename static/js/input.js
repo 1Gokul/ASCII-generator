@@ -1,6 +1,6 @@
 
 $(document).ready(function () {
-    
+
     console.log("(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧");
     console.log("Hello there... I see you like to check the console!");
     console.log("Not much here though... except C̶͓̥̆́ͮU̔R̵̙̟ͥ́̄̾̀S̿È͇̻̹̬͑ͦ͗͒̕D̛̦ͬ̀ ͕̉ͧT̢̜̹͕͉̓̅E̸̥̓̋̒҉̑X͖̼̘̙ͨ͝T͇͖̂̚S̟̪̱ͯ͑ͩ̍̕҉̞  normal task logs! See ya!");
@@ -189,10 +189,9 @@ $(document).ready(function () {
     }
 
     display_converted_image = function (conversionResult, errors) {
-        before_displaying_result();
         var html = "";
         html += '<p class="result-title"">Your converted image</p>';
-        html += '<div class="column left"><img src=' + conversionResult.mainResult + '></div>';
+        html += '<div class="column left"><img id="result-image" src=' + conversionResult.mainResult + '></div>';
         if (errors != "none") {
             html += '<div class="column right"><div class="error" style="padding:15px;"><p style="color: white;">Errors faced while processing:</p>' + errors + '</div></div>';
         }
@@ -200,12 +199,14 @@ $(document).ready(function () {
 
         $('#result-box').html(html);
 
-
+        $('#result-image').imagesLoaded(function () {
+            scroll_to_result();
+        });
 
     }
 
     display_converted_text = function (conversionResult, errors) {
-        before_displaying_result();
+
 
         var html = "";
         html += '<p class="result-title">Your converted text</p>';
@@ -217,15 +218,14 @@ $(document).ready(function () {
         html += '<div class="column right"><div class="downloadlink"><a href=' + conversionResult.raw + '>View raw text</a></div></div>';
 
         $('#result-box').html(html);
+
+        scroll_to_result();
     }
 
 });
 
-function before_displaying_result() {
-    $('#result-box').css('min-height', 500);
-    $(document.body).animate({
-        scrollTop: document.body.scrollHeight
-    }, 500);
+function scroll_to_result() {
+    window.scrollTo(0, $("#result-box").offset().top);
     $('#submitbutton').css('background', '#02d16d');
     $('#submitbutton').val('All done! :D');
 }
