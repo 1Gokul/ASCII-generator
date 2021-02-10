@@ -1,13 +1,12 @@
-# ASCII generator
+# ASCII generator v1.5
 
-Front-end to the ASCII generator repo this was forked from. Made as a hobby project to test and improve my web development skills.
+Front-end to the ASCII generator repo this was forked from.
 
-## Note: 
-You can test out the program before V2 here: [pic-2ascii.herokuapp.com](https://pic-2ascii.herokuapp.com/)
+This v1.5 version of this app is the version that is hosted on Heroku, as it does not use [RQ](https://nvie.com/posts/introducing-rq/) for performing tasks.
 
-V2 will not be pushed to Heroku so as to not incur charges from its [Redis To Go](https://elements.heroku.com/addons/redistogo) addon, which is required for this project to run.
+You can test out the app here: [pic-2ascii.herokuapp.com](https://pic-2ascii.herokuapp.com/)
 
-It can be run locally though. You can install it following the instructions below:
+You can install and run it following the instructions below:
 
 ## Installation
 
@@ -31,15 +30,7 @@ It can be run locally though. You can install it following the instructions belo
     
 ## Running the application
 
-- Create two instances of bash
-- In the first instance, navigate to the repo's folder
-    1. Activate the virtual environment: ` source <your_venv_name>/bin/activate`
-    2. Start the redis server: `sudo service redis-server start`
-    3. Run the worker: `python worker.py`
-
-- In the second instance,
-    1. Activate the virtual environment: ` source <your_venv_name>/bin/activate`
-    2. Run the main program: `python main.py`
+- Run `main.py`.
 
 
 By:

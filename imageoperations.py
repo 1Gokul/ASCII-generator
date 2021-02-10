@@ -8,9 +8,10 @@ import img2img
 import img2txt
 from pasteee import Paste
 
+# IMGUR_KEY = "<INSERT_YOUR_IMGUR_CLIENT_ID_HERE>"
 
-im = pyimgur.Imgur(os.environ.get("IMGUR_KEY"))
-
+IMGUR_KEY = os.environ.get("IMGUR_KEY")
+im = pyimgur.Imgur(IMGUR_KEY)
 
 # Converts the image into and ASCII-fied image or text.
 def convert_image(imglink, conv_type, mode, bg, num_cols, scale):

@@ -20,16 +20,15 @@ def index(error=" "):
         error = request.form.get('error')
 
     return render_template('input.html',
-                           maxFileSize=os.environ.get("MAX_FILE_SIZE"), apiKey = os.environ.get("IMGUR_KEY"),
+                           maxFileSize=os.environ.get("MAX_FILE_SIZE"),
                            error=error)
 
 
 @app.route('/convert', methods=['POST'])
 def convert_file():
     if (request.method == 'POST'):
-
         # Start the image conversion as a background task in the Redis Queue
-        responseObject = convert_image(str(request.form.get('imglink')),
+        responseObject = convert_image(request.files['image'],
                          str(request.form.get('type')),
                          str(request.form.get('mode')),
                          str(request.form.get('bg')),
